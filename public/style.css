@@ -4,12 +4,16 @@
   margin: 0;
   box-sizing: border-box;
 }
+:root {
+  --bg-color: #162a3a;
+  --nav-color: #52e5fe;
+}
 body {
-  background-color: #162a3a;
+  background-color: var(--bg-color);
   font-family: "Roboto Mono", monospace;
 }
 nav {
-  color: #52e5fe;
+  color: var(--nav-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,7 +63,7 @@ button {
   width: 100px;
   cursor: pointer;
   border: none;
-  background-color: #52e5fe;
+  background-color: var(--nav-color);
   border-radius: 5px;
   font-size: 20px;
   transition: 0.3s ease;
@@ -69,12 +73,12 @@ button:hover {
 }
 /*  */
 .data {
-  border: 1px solid #52e5fe;
+  border: 1px solid var(--nav-color);
   margin-top: 120px;
   padding: 20px;
 }
 i {
-  color: #52e5fe;
+  color: var(--nav-color);
   cursor: pointer;
 }
 .bar1 {
@@ -85,7 +89,7 @@ i {
   color: white;
 }
 .long-bar {
-  border: 1px solid #52e5fe;
+  border: 1px solid var(--nav-color);
 }
 .bar-icons {
   display: flex;
