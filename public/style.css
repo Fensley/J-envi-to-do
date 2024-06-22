@@ -20,6 +20,9 @@ nav {
   padding: 20px 50px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 10px 1px;
 }
+.number {
+  color: white;
+}
 .todo {
   font-size: 30px;
   font-weight: bold;
@@ -35,7 +38,6 @@ nav {
 }
 /* */
 section {
-  /* border: 1px solid white; */
   margin-top: 100px;
 }
 .input-ctn {
@@ -94,6 +96,14 @@ i {
 .bar-icons {
   display: flex;
   gap: 15px;
+}
+.fa-trash:hover {
+  transition: 0.3s ease;
+  color: rgb(159, 32, 32);
+}
+.fa-pen-to-square:hover {
+  color: green;
+  transition: 0.3s ease;
 }
 /*  */
 footer {

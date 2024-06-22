@@ -1,33 +1,40 @@
 import { useState } from "react";
 import logo from "../src/data/Humaaans - Plant 1.png";
 export default function App() {
+  const [number, setnumber] = useState(0);
+
   return (
     <>
-      <Nav />
-      <Section />
+      <Nav number={number} setnumber={setnumber} />
+      <Section setnumber={setnumber} />
       <Footer />
     </>
   );
 }
 
-function Nav() {
+function Nav({ number }) {
   return (
     <nav>
-      <Datenow />
+      <Datenow number={number} />
       <Todo />
       <ImgLogo />
     </nav>
   );
 }
-function Datenow() {
+
+function Datenow({ number }) {
   const currentDate = new Date().toDateString();
   return (
     <div className="first-nav nav">
       <h4> {currentDate}</h4>
-      <p className="xxx">X active Tasks</p>
+      <p className="xxx">
+        {" "}
+        <span className="number">{number}</span> active Tasks
+      </p>
     </div>
   );
 }
+
 function Todo() {
   return (
     <div className="first-nav nav">
@@ -35,6 +42,7 @@ function Todo() {
     </div>
   );
 }
+
 function ImgLogo() {
   return (
     <div className="first-nav nav">
@@ -43,11 +51,11 @@ function ImgLogo() {
   );
 }
 
-function Section() {
+function Section({ setnumber }) {
   const [message, setmessage] = useState("");
   const [display, setDisplay] = useState("");
   const [editable, seteditable] = useState(true);
-  // const [clear, setclear] = useState("");
+
   function handlemessage(e) {
     setmessage(e.target.value);
   }
@@ -55,6 +63,7 @@ function Section() {
   function handledisplay() {
     setDisplay(message);
     setmessage("");
+    setnumber((not) => +1);
   }
 
   function handleeditable() {
@@ -63,6 +72,7 @@ function Section() {
 
   function handleclear() {
     setDisplay("");
+    setnumber(0);
   }
 
   return (
@@ -96,6 +106,7 @@ function Inputbar({ handlemessage, handledisplay, display, message }) {
     </div>
   );
 }
+
 function Card({
   message,
   display,
