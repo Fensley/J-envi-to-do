@@ -64,9 +64,12 @@ function Section({ setnumber }) {
   }
 
   function handledisplay() {
-    setDisplay([...display, { id: nextid++, name: message }]);
+    if (message.trim() !== "") {
+      setDisplay([...display, { id: nextid++, name: message }]);
+      setnumber((not) => not + 1);
+    }
+
     setmessage("");
-    setnumber((not) => +1);
   }
   function handleeditable() {
     seteditable2((not) => !not);
