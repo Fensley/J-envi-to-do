@@ -105,6 +105,7 @@ i {
   color: green;
   transition: 0.3s ease;
 }
+
 /*  */
 footer {
   display: flex;
@@ -117,6 +118,10 @@ footer {
 .fa-solid fa-heart {
   color: red;
 }
+.para {
+  text-decoration: line-through;
+}
+
 @media (max-width: 765px) {
   nav {
     padding: 10px 0px;

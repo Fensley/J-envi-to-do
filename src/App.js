@@ -1,5 +1,7 @@
 import { useState } from "react";
 import logo from "../src/data/Humaaans - Plant 1.png";
+let nextid = 0;
+
 export default function App() {
   const [number, setnumber] = useState(0);
 
@@ -53,26 +55,27 @@ function ImgLogo() {
 
 function Section({ setnumber }) {
   const [message, setmessage] = useState("");
-  const [display, setDisplay] = useState("");
+  const [display, setDisplay] = useState([]);
   const [editable, seteditable] = useState(true);
+  const [editable2, seteditable2] = useState(true);
 
   function handlemessage(e) {
     setmessage(e.target.value);
   }
 
   function handledisplay() {
-    setDisplay(message);
+    setDisplay([...display, { id: nextid++, name: message }]);
     setmessage("");
     setnumber((not) => +1);
   }
-
   function handleeditable() {
-    seteditable((not) => !not);
+    seteditable2((not) => !not);
   }
 
   function handleclear() {
-    setDisplay("");
-    setnumber(0);
+    setDisplay(display.filter((a) => a.id !== display.id));
+    console.log(display);
+    seteditable((not) => !not);
   }
 
   return (
@@ -87,7 +90,9 @@ function Section({ setnumber }) {
         display={display}
         editable={editable}
         handleeditable={handleeditable}
+        setDisplay={setDisplay}
         handleclear={handleclear}
+        editable2={editable2}
       />
     </section>
   );
@@ -114,6 +119,8 @@ function Card({
   handledisplay,
   handleeditable,
   handleclear,
+  setDisplay,
+  editable2,
 }) {
   return (
     <div className="data">
@@ -122,107 +129,58 @@ function Card({
         editable={editable}
         handleeditable={handleeditable}
         handleclear={handleclear}
-      />
-      <Longbar />
-      <Cardtwo
-        message={message}
-        editable={editable}
-        handleeditable={handleeditable}
-      />
-      <Longbar />
-      <Cardthree
-        message={message}
-        editable={editable}
-        handleeditable={handleeditable}
-      />
-      <Longbar />
-      <Cardfour
-        message={message}
-        editable={editable}
-        handleeditable={handleeditable}
-      />
-      <Longbar />
-      <Cardfive
-        message={message}
-        editable={editable}
-        handleeditable={handleeditable}
+        setDisplay={setDisplay}
+        editable2={editable2}
       />
     </div>
   );
 }
 
-function Cardone({ message, display, handleeditable, editable, handleclear }) {
+function Cardone({
+  message,
+  display,
+  handleeditable,
+  editable,
+  handleclear,
+  setDisplay,
+  editable2,
+}) {
   return (
-    <div className="bar1">
-      <p
-        suppressContentEditableWarning={true}
-        contentEditable={editable ? false : true}
-      >
-        {" "}
-        {display}
-      </p>
-      <Theicons handleeditable={handleeditable} handleclear={handleclear} />
+    <div>
+      {display.map((each) => (
+        <>
+          <div className="bar1" key={each.id}>
+            <p
+              className={editable ? "" : "para"}
+              suppressContentEditableWarning={true}
+              contentEditable={editable2 ? false : true}
+              key={each.id}
+              id="forlong"
+            >
+              {each.name}
+            </p>
+            <Theicons
+              handleeditable={handleeditable}
+              handleclear={handleclear}
+              display={display}
+              setDisplay={setDisplay}
+              editable2={editable2}
+            />
+          </div>
+          <Longbar />
+        </>
+      ))}
     </div>
   );
 }
 
-function Cardtwo({ handleeditable, editable }) {
-  return (
-    <div className="bar1">
-      <p
-        suppressContentEditableWarning={true}
-        contentEditable={editable ? false : true}
-      >
-        Deploy App and then get into meeting with team{" "}
-      </p>
-      <Theicons handleeditable={handleeditable} />
-    </div>
-  );
-}
-
-function Cardthree({ handleeditable, editable }) {
-  return (
-    <div className="bar1">
-      <p
-        suppressContentEditableWarning={true}
-        contentEditable={editable ? false : true}
-      >
-        Go pick up pizza tonight
-      </p>
-      <Theicons handleeditable={handleeditable} />
-    </div>
-  );
-}
-
-function Cardfour({ handleeditable, editable }) {
-  return (
-    <div className="bar1">
-      <p
-        suppressContentEditableWarning={true}
-        contentEditable={editable ? false : true}
-      >
-        Going to soho house with my friends
-      </p>
-      <Theicons handleeditable={handleeditable} />
-    </div>
-  );
-}
-
-function Cardfive({ handleeditable, editable }) {
-  return (
-    <div className="bar1">
-      <p
-        suppressContentEditableWarning={true}
-        contentEditable={editable ? false : true}
-      >
-        Get prepare for an marathon
-      </p>
-      <Theicons handleeditable={handleeditable} editable={editable} />
-    </div>
-  );
-}
-
-function Theicons({ handleeditable, editable, handleclear }) {
+function Theicons({
+  handleeditable,
+  editable,
+  handleclear,
+  setDisplay,
+  display,
+}) {
   return (
     <div className="bar-icons">
       <i className="fa-solid fa-trash" onClick={handleclear}></i>
