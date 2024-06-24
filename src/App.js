@@ -28,9 +28,8 @@ function Datenow({ number }) {
   const currentDate = new Date().toDateString();
   return (
     <div className="first-nav nav">
-      <h4> {currentDate}</h4>
+      <h4>{currentDate}</h4>
       <p className="xxx">
-        {" "}
         <span className="number">{number}</span> active Tasks
       </p>
     </div>
@@ -56,7 +55,6 @@ function ImgLogo() {
 function Section({ setnumber }) {
   const [message, setmessage] = useState("");
   const [display, setDisplay] = useState([]);
-  const [editable, seteditable] = useState(true);
   const [editable2, seteditable2] = useState(true);
 
   function handlemessage(e) {
@@ -65,20 +63,21 @@ function Section({ setnumber }) {
 
   function handledisplay() {
     if (message.trim() !== "") {
-      setDisplay([...display, { id: nextid++, name: message }]);
-      setnumber((not) => not + 1);
+      const newDisplay = [...display, { id: nextid++, name: message }];
+      setDisplay(newDisplay);
+      setnumber(newDisplay.length);
+      setmessage("");
     }
-
-    setmessage("");
   }
+
   function handleeditable() {
     seteditable2((not) => !not);
   }
 
-  function handleclear() {
-    setDisplay(display.filter((a) => a.id !== display.id));
-    console.log(display);
-    seteditable((not) => !not);
+  function handleclear(id) {
+    const newDisplay = display.filter((a) => a.id !== id);
+    setDisplay(newDisplay);
+    setnumber(newDisplay.length);
   }
 
   return (
@@ -89,9 +88,7 @@ function Section({ setnumber }) {
         handledisplay={handledisplay}
       />
       <Card
-        message={message}
         display={display}
-        editable={editable}
         handleeditable={handleeditable}
         setDisplay={setDisplay}
         handleclear={handleclear}
@@ -100,7 +97,8 @@ function Section({ setnumber }) {
     </section>
   );
 }
-function Inputbar({ handlemessage, handledisplay, display, message }) {
+
+function Inputbar({ handlemessage, handledisplay, message }) {
   return (
     <div className="input-ctn">
       <input
@@ -115,16 +113,7 @@ function Inputbar({ handlemessage, handledisplay, display, message }) {
   );
 }
 
-function Card({
-  message,
-  display,
-  editable,
-  handledisplay,
-  handleeditable,
-  handleclear,
-  setDisplay,
-  editable2,
-}) {
+function Card({ display, editable, handleeditable, handleclear, editable2 }) {
   return (
     <div className="data">
       <Cardone
@@ -132,7 +121,6 @@ function Card({
         editable={editable}
         handleeditable={handleeditable}
         handleclear={handleclear}
-        setDisplay={setDisplay}
         editable2={editable2}
       />
     </div>
@@ -140,24 +128,20 @@ function Card({
 }
 
 function Cardone({
-  message,
   display,
   handleeditable,
-  editable,
   handleclear,
-  setDisplay,
+  editable,
   editable2,
 }) {
   return (
-    <div>
+    <div className="each">
       {display.map((each) => (
-        <>
-          <div className="bar1" key={each.id}>
+        <div key={each.id}>
+          <div className="bar1">
             <p
-              className={editable ? "" : "para"}
               suppressContentEditableWarning={true}
               contentEditable={editable2 ? false : true}
-              key={each.id}
               id="forlong"
             >
               {each.name}
@@ -165,28 +149,20 @@ function Cardone({
             <Theicons
               handleeditable={handleeditable}
               handleclear={handleclear}
-              display={display}
-              setDisplay={setDisplay}
-              editable2={editable2}
+              id={each.id}
             />
           </div>
           <Longbar />
-        </>
+        </div>
       ))}
     </div>
   );
 }
 
-function Theicons({
-  handleeditable,
-  editable,
-  handleclear,
-  setDisplay,
-  display,
-}) {
+function Theicons({ handleeditable, handleclear, id }) {
   return (
     <div className="bar-icons">
-      <i className="fa-solid fa-trash" onClick={handleclear}></i>
+      <i className="fa-solid fa-trash" onClick={() => handleclear(id)}></i>
       <i className="fa-solid fa-pen-to-square" onClick={handleeditable}></i>
     </div>
   );

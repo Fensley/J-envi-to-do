@@ -78,6 +78,9 @@ button:hover {
   border: 1px solid var(--nav-color);
   margin-top: 120px;
   padding: 20px;
+  overflow-y: scroll;
+  height: 50vh;
+  scrollbar-color: #1b7585 transparent;
 }
 i {
   color: var(--nav-color);
@@ -86,12 +89,18 @@ i {
 .bar1 {
   display: flex;
   justify-content: space-between;
-  margin: 20px;
+  padding: 10px;
   align-items: center;
   color: white;
+  border-radius: 4px;
+  transition: 0.3s ease;
+}
+.bar1:hover {
+  background-color: rgb(15, 64, 77);
+  transition: 0.3s ease;
 }
 .long-bar {
-  border: 1px solid var(--nav-color);
+  border-bottom: 0.1px solid #206b79;
 }
 .bar-icons {
   display: flex;
