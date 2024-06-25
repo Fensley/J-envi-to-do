@@ -26,11 +26,15 @@ function Nav({ number }) {
 
 function Datenow({ number }) {
   const currentDate = new Date().toDateString();
+
   return (
     <div className="first-nav nav">
       <h4>{currentDate}</h4>
       <p className="xxx">
-        <span className="number">{number}</span> active Tasks
+        <span className="number">
+          {number} {}
+        </span>{" "}
+        active Tasks
       </p>
     </div>
   );
