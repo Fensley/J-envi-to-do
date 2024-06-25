@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import logo from "../src/data/Humaaans - Plant 1.png";
 let nextid = 0;
 
-export default function Appv2() {
-  const [number, setnumber] = useState(0);
+export default function App() {
+  const [number, setNumber] = useState(0);
 
   return (
     <>
-      <Nav number={number} setnumber={setnumber} />
-      <Section setnumber={setnumber} />
+      <Nav number={number} />
+      <Section setNumber={setNumber} />
       <Footer />
     </>
   );
@@ -56,105 +56,96 @@ function ImgLogo() {
   );
 }
 
-function Section({ setnumber }) {
-  const [message, setmessage] = useState("");
+function Section({ setNumber }) {
+  const [message, setMessage] = useState("");
   const [display, setDisplay] = useState([]);
-  const [editable2, seteditable2] = useState(true);
+  const [editable2, setEditable2] = useState(true);
 
-  // Use useEffect to load tasks from local storage when the component mounts
+  // Load tasks from local storage when the component mounts
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem("tasks"));
     if (storedTasks) {
       setDisplay(storedTasks);
-      setnumber(storedTasks.length);
+      setNumber(storedTasks.length);
       nextid =
         storedTasks.length > 0 ? storedTasks[storedTasks.length - 1].id + 1 : 0;
     }
-  }, [setnumber]);
+  }, [setNumber]);
 
   // Save tasks to local storage whenever the display state changes
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(display));
   }, [display]);
 
-  function handlemessage(e) {
-    setmessage(e.target.value);
+  function handleMessage(e) {
+    setMessage(e.target.value);
   }
 
-  function handledisplay() {
+  function handleDisplay() {
     if (message.trim() !== "") {
       const newDisplay = [...display, { id: nextid++, name: message }];
       setDisplay(newDisplay);
-      setnumber(newDisplay.length);
-      setmessage("");
+      setNumber(newDisplay.length);
+      setMessage("");
     }
   }
 
-  function handleeditable() {
-    seteditable2((not) => !not);
+  function handleEditable() {
+    setEditable2((prev) => !prev);
   }
 
-  function handleclear(id) {
-    const newDisplay = display.filter((a) => a.id !== id);
+  function handleClear(id) {
+    const newDisplay = display.filter((item) => item.id !== id);
     setDisplay(newDisplay);
-    setnumber(newDisplay.length);
+    setNumber(newDisplay.length);
   }
 
   return (
     <section>
       <Inputbar
         message={message}
-        handlemessage={handlemessage}
-        handledisplay={handledisplay}
+        handleMessage={handleMessage}
+        handleDisplay={handleDisplay}
       />
       <Card
         display={display}
-        handleeditable={handleeditable}
-        setDisplay={setDisplay}
-        handleclear={handleclear}
+        handleEditable={handleEditable}
+        handleClear={handleClear}
         editable2={editable2}
       />
     </section>
   );
 }
 
-function Inputbar({ handlemessage, handledisplay, message }) {
+function Inputbar({ handleMessage, handleDisplay, message }) {
   return (
     <div className="input-ctn">
       <input
         placeholder="add your to do"
-        onChange={handlemessage}
+        onChange={handleMessage}
         value={message}
       />
       <div className="Add-ctn">
-        <button onClick={handledisplay}>Add</button>
+        <button onClick={handleDisplay}>Add</button>
       </div>
     </div>
   );
 }
 
-function Card({ display, editable, handleeditable, handleclear, editable2 }) {
+function Card({ display, handleEditable, handleClear, editable2 }) {
   return (
     <div className="data">
       <Cardone
         display={display}
-        editable={editable}
-        handleeditable={handleeditable}
-        handleclear={handleclear}
+        handleEditable={handleEditable}
+        handleClear={handleClear}
         editable2={editable2}
       />
     </div>
   );
 }
 
-function Cardone({
-  display,
-  handleeditable,
-  handleclear,
-  editable,
-  editable2,
-}) {
-  //   console.log(display);
+function Cardone({ display, handleEditable, handleClear, editable2 }) {
   return (
     <div className="each">
       {display.map((each) => (
@@ -168,8 +159,8 @@ function Cardone({
               {each.name}
             </p>
             <Theicons
-              handleeditable={handleeditable}
-              handleclear={handleclear}
+              handleEditable={handleEditable}
+              handleClear={handleClear}
               id={each.id}
             />
           </div>
@@ -180,11 +171,11 @@ function Cardone({
   );
 }
 
-function Theicons({ handleeditable, handleclear, id }) {
+function Theicons({ handleEditable, handleClear, id }) {
   return (
     <div className="bar-icons">
-      <i className="fa-solid fa-trash" onClick={() => handleclear(id)}></i>
-      <i className="fa-solid fa-pen-to-square" onClick={handleeditable}></i>
+      <i className="fa-solid fa-trash" onClick={() => handleClear(id)}></i>
+      <i className="fa-solid fa-pen-to-square" onClick={handleEditable}></i>
     </div>
   );
 }
