@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../src/data/Humaaans - Plant 1.png";
 let nextid = 0;
 
@@ -138,6 +138,7 @@ function Cardone({
   editable,
   editable2,
 }) {
+  console.log(display);
   return (
     <div className="each">
       {display.map((each) => (
